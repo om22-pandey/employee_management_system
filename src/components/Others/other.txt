@@ -1,0 +1,67 @@
+import React, { useEffect, useState } from "react";
+import Login from "./components/Auth/Login";
+import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
+import AdminDashboard from "./components/Dashboard/AdminDashboard";
+import { getLocalStorage, setLocalStorage } from "./utils/LocalStorage";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthProvider";
+
+const App = () => {
+  useEffect(() => {
+    setLocalStorage();
+    getLocalStorage();
+  });
+
+  const [user, setUser] = useState(null);
+  const [loggedInUserData, setLoggedInUserData] = useState(null)
+
+  const AuthData = useContext(AuthContext);
+  // console.log(AuthData);
+  // console.log(AuthData.admin);
+  // console.log(AuthData.employees);
+
+  useEffect(() => {
+
+    if (AuthData) {
+      const loggedInUser = localStorage.getItem("loggedInUser")
+      console.log(loggedInUser);
+      if (loggedInUser) {
+        setUser(loggedInUser.role)
+      }
+    }
+
+  },[AuthData])
+  
+
+  const handleLogin = (email, password) => {
+    if (email == "admin@me.com" && password == "123") {
+      // console.log("this is admin")
+      setUser("admin");
+      localStorage.setItem("loggedInUser" ,JSON.stringify({role : "admin"}))
+      // console.log(user);
+    } else if (AuthData && AuthData.employees.find((e)=> email == e.email && e.password == password)) {
+      // console.log("this is user")
+      setUser("employee");
+      // console.log(AuthData)
+      // const employee_name =  AuthData.employees.find((e)=> email == e.email && e.password == password).id;
+      // localStorage.setItem("loggedInUser" ,JSON.stringify( "employee" + employee_name))
+      localStorage.setItem("loggedInUser" ,JSON.stringify({role : "employee"}))
+      // console.log(user);
+    } else {
+      alert("invalid");
+    }
+  };
+ 
+  return (
+    <>
+      {/* <Login/> */}
+      {!user ? <Login handleLogin={handleLogin} /> : " "}
+      {user == "admin" ? <AdminDashboard /> : ""}
+      {user == "employee" ? <EmployeeDashboard /> : ""}
+      {/* <EmployeeDashboard/> */}
+      {/* <AdminDashboard/> */}
+    </>
+  );
+};
+
+export default App;

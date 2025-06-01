@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+body,
+input {
+  color: white;
+  /* background: rgb(40, 36, 36); */
+  /* background: rgb(125, 231, 201); */
+  background: linear-gradient(to right, #8ee4af, #a8edea);
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  overflow: -moz-scrollbars-none;
+  /* font-family:Arial, Helvetica, sans-serif; */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+input {
+  background: transparent;
+  color: rgb(49, 128, 106);
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+#tasklist::-webkit-scrollbar {
+  display: none;
+}
+#alltask::-webkit-scrollbar {
+  display: none;
+}
